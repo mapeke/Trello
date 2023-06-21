@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="main_layout.html">
+  <div layout:fragment="siteContent">
+    <div class="row mt-5">
+      <div class="col-8 mx-auto">
+        <form th:action="@{'/save-task'}" method="post" th:if= "${task!=null}">
+          <input type="hidden" name="task_id" th:value="${task.id}">
+          <input type="hidden" name="folder_id" th:value="${folder.id}">
+          <div class="row">
+            <div class="col-12">
+              <label>TITLE : </label>
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col-12">
+              <input type="text" class="form-control"
+                     name="title" placeholder="Title"
+                     th:value="${task.title}" required>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-12">
+              <label>DESCRIPTION : </label>
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col-12">
+              <textarea class="form-control" name="description" placeholder="Description"
+                        th:value="${task.description}"
+                        th:text="${task.description}"
+                        required>
+              </textarea>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-12">
+              <label>STATUS : </label>
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col-12">
+              <select class="form-select" name="status">
+                <option th:selected="${task.status == 0}" th:value="0" class="text-primary fw-bold">TO DO</option>
+                <option th:selected="${task.status == 1}" th:value="1" class="text-warning fw-bold">IN TEST</option>
+                <option th:selected="${task.status == 2}" th:value="2" class="text-success fw-bold">DONE</option>
+                <option th:selected="${task.status == 3}" th:value="3" class="text-danger fw-bold">FAILED</option>
+              </select>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-12">
+              <button class="btn btn-success">SAVE TASK</button>
+              <button type="button" class="btn btn-danger ms-2" data-bs-toggle="modal" data-bs-target="#deleteModal">DELETE TASK</button>
+            </div>
+          </div>
+        </form>
+
+        <!-- Modal -->
+        <div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false"
+             tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" th:if= "${task!=null}">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <form th:action="@{'/delete-task'}" method="post">
+                <input type="hidden" name="task_id" th:value="${task.id}">
+                <input type="hidden" name="folder_id" th:value="${folder.id}">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="staticBackdropLabel">Confirm Delete</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <h3 class="text-center">ARE YOU SURE?</h3>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">NO</button>
+                  <button class="btn btn-danger">YES</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <h4 th:if="${task==null}" class="text-center">
+          TASK NOT FOUND
+        </h4>
+      </div>
+    </div>
+  </div>
+</html>

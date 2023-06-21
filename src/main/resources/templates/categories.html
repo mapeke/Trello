@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="main_layout.html">
+
+  <div layout:fragment="siteContent">
+
+    <button type="button" class="btn fw-bold" data-bs-toggle="modal" data-bs-target="#addCategory">
+      + New Category
+    </button>
+    <!-- Modal -->
+    <div class="modal fade" id="addCategory" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">ADD NEW CATEGORY</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <form th:action="@{'/add-category'}" method="post">
+            <div class="modal-body">
+              CATEGORY NAME:
+              <input type="text" class="form-control" name="name" placeholder="Category Name">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button class="btn btn-success">ADD CATEGORY</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-2">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th style="width: 5%">ID</th>
+          <th>Category Name</th>
+          <th style="width: 10%">Details</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="category : ${categories}">
+          <td th:text="${category.id}"></td>
+          <td th:text="${category.name}"></td>
+          <td>
+            <a th:href="@{'/category-details/' + ${category.id}}"
+               class="btn btn-primary btn-sm">Details</a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</html>
