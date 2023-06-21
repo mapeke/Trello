@@ -1,0 +1,25 @@
+version: '3.1'
+services:
+  backend:
+    image: 'mapeke/trello'
+    container_name: 'self-generated-backend-container'
+    depends_on: 
+      - pgdb
+    environment: 
+      - SERVER_PORT=9999
+      - SPRING_DATASOURCE_USERNAME=adil
+      - SPRING_DATASOURCE_PASSWORD=adil
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://pgdb:5432/postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_JPA_SHOW_SQL=true
+    ports:
+      - 8004:9999
+
+  pgdb:
+    image: postgres
+    container_name: 'pg-container'
+    environment: 
+      - POSTGRES_USER=adil
+      - POSTGRES_PASSWORD=adil  
+    ports:
+      - 2345:5432
